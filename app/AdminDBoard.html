@@ -1,0 +1,389 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dash Board</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+    <style>
+
+    .navbar-inner {
+    	width: 100%;
+    }
+
+    .footer {
+    	position: absolute;
+    	bottom: -200;
+    	width: 100%;
+    	height: 40px;
+    	background-color: #000000;
+    	text-align: center;
+    }
+
+    .dvd-readme-box-one {
+        position: relative;
+        border-style: solid;
+        border-width: 0.2em;
+        border-color: #428bca;
+        width: 97%;
+        height: 44%;
+        text-align: left;
+    }
+
+    .dvd-readme-box-bill {
+        position: relative;
+        border-style: solid;
+        border-width: 0.2em;
+        border-color: #428bca;
+        width: 97%;
+        height: 30%;
+        text-align: left;
+    }
+
+    .dvd-readme-box-media {
+        position: relative;
+        border-style: solid;
+        border-width: 0.2em;
+        border-color: #428bca;
+        width: 97%;
+        height: 38%;
+        text-align: left;
+    }
+
+    .media-field-placer {
+        padding-left: 20px;
+        padding-top:  20px;
+    }
+
+    .dvd-readme-box {
+        position: relative;
+        border-style: solid;
+        border-width: 0.2em;
+        border-color: #428bca;
+        width: 97%;
+        height: 40%;
+        text-align: left;
+    }
+
+    
+
+    .dvd-readme-box .dvd-poster,
+    .dvd-readme-box .dvd-poster img {
+        width: 240px;
+        height: 400px;
+    }
+
+    .dvd-readme-box .dvd-metadata h4 {
+        font-style: medium;
+    }
+
+    .dvd-readme-box .dvd-footer h5 {
+        font-style: small;
+    }
+
+    .paginator,
+    .paginator ul {
+        list-style-type: none;
+    }
+
+    /*.pdsa-submit-progress 
+       {
+           position: fixed;
+           top: 50%;
+           left: 50%;
+           z-index: 1;
+           height: 6em;
+           width: 20em;
+           margin-left: -10em;
+           padding-top: 2.5em;
+           padding-left: 2.1em;
+           background-color: Black;
+           color: White;
+           border-radius: 0.4em;
+           -moz-border-radius: 0.4em;
+           -webkit-border-radius: 0.4em;
+           box-shadow: 0.4em 0.4em rgba(0,0,0, 0.6);
+           -moz-box-shadow: 0.4em 0.4em rgba(0,0,0 0.6);
+           -webkit-box-shadow: 0.4em 0.4em rgba(0,0,0 0.6);
+       }  */
+
+    .pdsa-submit-progress-bg {
+            background-color: lightgray;
+            opacity: .5;
+        }
+
+    .pdsa-submit-progress {
+              padding-top: 2em;
+              width: 23em;
+              margin-left: -11.5em;
+    }
+        
+    .pdsa-submit-progress i {
+                margin-right: 0.5em;
+    }
+
+    </style>
+</head>
+     <body lang="en" ng-app="videoApp">
+        <!-- Header section BEGIN---------- of the Landing Page -->
+        <div class="container">
+    	<div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                	<a href="#"  data-toggle="dropdown" class="dropdown-toggle">Movies <span class="caret"></span></a>
+               		 <ul class="dropdown-menu">
+                		<li><a href="Popular.html">Popular</a></li>
+                		<li><a href="Languages.html">Language</a></li>
+					</ul>
+                </li>
+                <li><a href="AdminRatePlan.html">Rate&nbspPlan</a></li>
+                <li><a href="Devices.html">Devices</a></li>
+            </ul>
+            	<ul class="nav pull-right">
+               		<li><button type="button" class="btn btn-default navbar-btn">Login</button></li>
+                	<li><form class="navbar-form navbar-left" role="Search">
+                		<div class="form-group">
+                			<input type="text" class="form-control" placeholder="Movie Name">
+                			<button type="submit" class="btn btn-default">Search</button>
+                		</div>
+                		</form>                	
+                 	</li>
+            	</ul>
+        	</div>
+   		 </div>
+	</div>
+        <!-- Header section END--------- of the Landing Page -->
+
+    <!-- ** BEGIN POP-UP MESSAGE AREA ** -->
+      <div class="pdsa-submit-progress hidden">
+       <i class="fa fa-2x fa-spinner fa-spin"></i> 
+        <label>Please wait ...</label>
+      </div>
+      <!-- ** END POP-UP MESSAGE AREA ** -->
+
+
+
+    <div class="container-fluid">
+        <div ng-controller="AdminDBController">
+        
+        <div class="row">
+              
+            <div class="span10">
+            <h1> Subscribers </h1>
+                <div class="dvd-readme-box-one">
+                <table class="table tablebordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                        <td>
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sort = 'name'">Name</a> 
+                        
+                            <span ng-show="sort == 'name'" class="caret"></span>
+                        </td>
+                        <td>
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sort = 'userID'">User ID</a>
+                        
+                            <span ng-show="sort == 'userID'" class="caret"></span> 
+                        </td>
+                        <td>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sort = 'role'">Role</a>
+                        
+                            <span ng-show="sort == 'role'" class="caret"></span> 
+                        </td>
+                        <td>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sort = 'rateplan'">Rate Plan</a>    
+                        
+                            <span ng-show="sort == 'rateplan'" class="caret"></span> 
+                        </td>
+                        <td>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sort = 'authorize'">Authorize</a> 
+                        
+                            <span ng-show="sort == 'authorize'" class="caret"></span> 
+                        </td>
+                        <td>Billing</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr ng-repeat="subscriber in usubset | orderBy:sort:reverse">
+                         <td>{{subscriber.name}}</td>
+                         <td>{{subscriber.userID}}</td>
+                         <td>{{subscriber.role}}</td>
+                         <td>{{subscriber.rateplan}}</td>
+                         <td>
+                         <label for="uactive">&nbsp&nbsp<input id="uactive" type="radio" ng-model="subscriber.authorize" value="active">&nbsp&nbspactive </label>
+                         <label for="dactive">&nbsp&nbsp<input id="dactive" type="radio" ng-model="subscriber.authorize" value="deactive">&nbsp&nbspdeactive</label></td>
+                         <td><label>&nbsp&nbsp<input type="checkbox">&nbsp&nbspView</label></td>
+                         </tr>
+                    </tbody>
+                </table>
+                <ul class="paginator">
+                    <li> &nbsp&nbsp<a href="#" ng-click="upageprev()">&#171</a>&nbsp&nbsp<a href="#" ng-click="upagenext()">&#187</a></li>
+                    <li> &nbsp&nbsp<button type="button" class="btn btn-default pull-right">Authorize</button>&nbsp&nbsp<button type="button" class="btn btn-default pull-right">View Bill</button></li>
+                </ul>
+                </div>
+            </div>      
+            
+            <div class="span8">
+            <h1> Media Manager </h1>
+                <div class="dvd-readme-box">
+                <table  class="table tablebordered table-striped table-hover">
+                            <thread>
+                            <tr>
+                                <td>
+                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sortType = 'id'">Media ID</a>    
+                                  
+                                    <span ng-show="sortType == 'id'" class="caret"></span>
+                                 </td>
+                                <td> 
+                                     <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sortType = 'name'">Name</a> 
+                                      
+                                    <span ng-show="sortType == 'name'" class="caret"></span>
+                                </td>
+                                <td> 
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sortType = 'language'">Language</a>
+                                     
+                                    <span ng-show="sortType == 'language'" class="caret"></span>
+                                </td>
+                                <td> 
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sortType = 'rights'">Rights</a>
+                                     
+                                    <span ng-show="sortType == 'rights'" class="caret"></span>
+                                </td>
+                                <td>
+                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle" ng-click="sortType = 'rating'">Rating</a>   
+                                  
+                                    <span ng-show="sortType == 'rating'" class="caret"></span>
+                                 </td>
+                            </tr>
+                            </thread>
+                            <tbody>
+                            <tr ng-repeat="media in subset | orderBy:sortType:sortReverse">
+                                <td title="'MediaID'" >
+                                    {{media.id}}</td>
+                                <td title="'Name'" >
+                                    {{media.name}}</td>
+                                <td title="'Language'" >
+                                    {{media.language}}</td>
+                                <td title="'Rights'" >
+                                    {{media.rights}}</td>
+                                <td title="'Rating'" >
+                                    {{media.rating}}</td>
+                            </tr>
+                            </tbody>
+                </table>
+                <ul class="paginator">
+                    <li> &nbsp&nbsp<a href="#" ng-click="pageprev()">&#171</a>&nbsp&nbsp<a href="#" ng-click="pagenext()">&#187</a></li>
+                </ul>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="span8">
+                <h1>Billing History</h1>
+                    <label> Start Month &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp End Month </label>
+                    <select class="form-control">
+                        <option>Jan 2015</option>
+                        <option>Feb 2015</option>
+                        <option>Mar 2015</option>
+                    </select>
+                    <select class="form-control">
+                        <option>Jan 2015</option>
+                        <option>Feb 2015</option>
+                        <option>Mar 2015</option>
+                    </select>
+                    <div class="dvd-readme-box-bill">
+                    <table  class="table tablebordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <td>BillingID</td>
+                                <td>UserID</td>
+                                <td>Month</td>
+                                <td>Payment</td>
+                                <td>Reminder</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="bill in bills">
+                                <td>{{bill.billing}}</td>
+                                <td>{{bill.userID}}</td>
+                                <td>{{bill.month | date}}</td>
+                                <td><a href="#" >{{bill.payment}}</a></td>
+                                <td>
+                                <label for="reminder">&nbsp&nbsp<input id="reminder" type="radio" ng-model="bill.reminder" value="enable">&nbsp&nbspset </label>
+                         <label for="dreminder">&nbsp&nbsp<input id="dreminder" type="radio" ng-model="bill.reminder" value="disable">&nbsp&nbspdisable</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-default pull-right">REMINDER</button>
+                    </div>
+                </div>
+                <div class="span10">
+                    <h1>Upload Media</h1>
+                    <div class="dvd-readme-box-media">
+                    <fieldset class="media-field-placer">
+                        <label for="MovieName">Movie Name:&nbsp&nbsp&nbsp&nbsp
+                        <input focus id="movieName" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Moviename" ng-model="content.movieName" /></label>
+                        <label for="Language">Language:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input focus id="language" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Language" ng-model="content.Language" /></label>
+                        <label for="Poster">Poster :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input  focus id="Poster"  required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Poster" ng-model="content.Poster" /></label>
+                        <label for="Actor">Actors :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input  focus id="Actor"  required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Actor" ng-model="content.Actor" /></label>
+                        <label for="Director">Director :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input  focus id="Director"  required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Director" ng-model="content.Director" /></label>
+                        <label for="Synopsis">Synopsis :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input  focus id="Synopsis"  required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Synopsis" ng-model="content.Synopsis" /></label>
+                        <label for="Media">Media :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input id="Media" type="password" placeholder="Media" ng-model="content.Media" /></label>
+                        <button type="submit" id="submitButton" class="btn btn-primary pull-right" onclick="return DisplayProgressMessage(this, 'Uploading...');">UPLOAD</button>
+                    </fieldset>        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Footer section BEGIN -------- of the Landing Page --> 
+            
+
+	<footer class="footer">
+		<div class="container">
+			<button type="button" class="btn btn-default pull-right">Contact</button>
+			<p class="text-muted">Copyright reserved to Movies Video Streaming 2015 </p>
+		</div>
+	</footer>
+
+        <!-- Footer section END -------- of the Landing Page -->
+
+     
+<!--<script src="/lib/angular/angular.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.min.js"></script>
+<script src="/lib/angular/angular-resource.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-touch.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js"></script>
+<script src="/lib/underscore-1.4.4.min.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+<script src="/lib/bootstrap.min.js"></script>
+<script src="/js/app.js"></script>
+<script type="text/javascript"  src="/js/controllers/AdminDBController.js"></script>
+<script>
+function DisplayProgressMessage(ctl, msg) {
+          $(ctl).prop('disabled', true).text(msg);
+
+          setTimeout(function () {
+              $(".pdsa-submit-progress").removeClass("hidden");
+          }, 50);
+
+              $("body").addClass("pdsa-submit-progress-bg");
+         
+
+          return true;
+      }
+
+</script>
+</body>
+</html>

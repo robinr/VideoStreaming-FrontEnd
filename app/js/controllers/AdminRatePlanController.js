@@ -1,87 +1,73 @@
 'use strict';
 
 videoApp.controller('AdminRatePlanController', 
-	function AdminRatePlanController($scope) {
+	function AdminRatePlanController($scope, $window, rateplanData) {
 
-		$scope.rateplan = 
+		$scope.rateplan = rateplanData.rateplan;
+		$scope.show = [];
+		$scope.languages = [];
+		$scope.remove = [false,false,false,false];
+
+		$scope.callSearch = function() {
+            var landingURL = "http://localhost:8000/Search.html";
+            $window.open(landingURL,"_self");
+            }
+
+			$scope.savePlan = function(plan,form)
 			{
-				packages:
-					[
-						{
-							plan  : 'SOLO',
-							offer : '/assets/img/Solo.png',
-							info  : 'Choose any one ?',
-							text : 'Just Rs 50 per month',
-							languages : 
-								[
-									{
-										name : 'English'
-									},
-									{
-										name : 'Hindi'
-									},
-									{
-										name : 'Kannada'
-									},
-									{
-										name : 'Tamil'
-									}
-								]
-						},
-						{
-							plan : 'MINI',
-							offer : '/assets/img/Mini.png',
-							info : 'Choose any two ?',
-							text :  'Just Rs 80 per month',
-							languages :
-								[
-									{
-										name : 'English'
-									},
-									{
-										name : 'Hindi'
-									},
-									{
-										name : 'Kannada'
-									},
-									{
-										name : 'Tamil'
-									}
-								]
-						},
-						{
-							plan : 'PLUS',
-							offer : '/assets/img/Plus.png',
-							info : 'Choose any three ?',
-							text :  'Just Rs 120 per month',
-							languages :
-								[
-									{
-										name : 'English'
-									},
-									{
-										name : 'Hindi'
-									},
-									{
-										name : 'Kannada'
-									},
-									{
-										name : 'Tamil'
-									}
-								]
-						},
-						{
-							plan : 'ULTRA',
-							offer : '/assets/img/Ultra.png',
-							text :  'Just Rs 150 per month',
-							languages :
-								[
-									{
-										name : 'All'
-									}
-								]
-						}
+				var empty = "Missing ";
+				if(plan.planname == null)
+				{
+					empty = empty+"Plan Name ?";
+				}
+				if(plan.price == null)
+				{
+					empty = empty+"Price ?";
+				}
+				if(plan.language == null)
+				{
+					empty = empty+"Language ?";
+				}
+				if(plan.imagefile == null)
+				{
+					empty = empty+"Image ?"
+				}
+				if(plan.options == null)
+				{
+					empty = empty+"Options";
+				}
+				plan.others = [];
+				plan.others.push($scope.languages);
+				alert(empty);
 
-					]
 			}
+
+			$scope.bundleSelect = function(selected,language)
+			{
+
+				if(selected == true)
+				{
+					$scope.languages.push(language);
+				}
+				else
+				{
+					if(selected == false)
+					{
+						var index = $scope.languages.indexOf(language);
+
+						$scope.languages.splice(index,1)
+					}
+				}
+			}
+
+			$scope.deletepkg = function(selected,index)
+			{
+
+			}
+
+			$scope.planremove = function()
+			{
+				alert("Plan Removed");
+			}
+
 		});

@@ -1,99 +1,26 @@
 'use strict';
 
 videoApp.controller('AdminDBController', 
-	function AdminDBController($scope) {
+	function AdminDBController($scope, $window, subscribersData, moviesData, billingData, daterangeData) {
 
-	$scope.sort = 'name';
+	$scope.sort = 'billing';
 	$scope.reverse = false;
 	$scope.presentPage = 0;
+	$scope.show = [];
 
-	$scope.subscribers = 
-				[
-					{
-						'name'     : 'Sales Manager',
-						'userID'   : 'sales@videostreaming.com',
-						'role'     : 'Admin',
-						'rateplan' : 'none',
-						'authorize': 'active',
-						'billing'  :  0
-					},
-					{
-						'name'	   :  'Robin R',
-						'userID'   :  'robinr.rao@gmail.com',
-						'role'	   :  'User',
-						'rateplan' :  'ULTRA',
-						'authorize':  'active',
-						'billing'  :  15
-					},
-					{
-						'name'     :  'Suresh S',
-						'userID'   :  'sureshk5@gmail.com',
-						'role'     :  'User',
-						'rateplan' :  'ULTRA',
-						'authorize':  'deactive',
-						'billing'  :  20
-					},
-					{
-						'name'     :  'Scott Meyers',
-						'userID'   :  'scott.m@gmail.com',
-						'role'     :  'User',
-						'rateplan' :  'SOLO',
-						'authorize':  'active',
-						'billing'  :  25	
-					},
-					{
-						'name'	   :   'Andrew Garfield',
-						'userID'   :   'AndrewGD',
-						'role'     :   'User',
-						'rateplan' :   'MINI',
-						'authorize':   'deactive',
-						'billing'  :   30
-					},
-					{
-						'name'     :   'Admin Manager',
-						'userID'   :   'admin@videostreaming.com',
-						'role'     :   'Admin',
-						'rateplan' :   'none',
-						'authorize':   'active',
-						'billing'  :    0
-					},
-					{
-						'name'	   :  'Adams R',
-						'userID'   :  'adams.r@gmail.com',
-						'role'	   :  'User',
-						'rateplan' :  'PLUS',
-						'authorize':  'active',
-						'billing'  :   35
-					},
-					{
-						'name'     :  'Mary Poppins',
-						'userID'   :  'maryp@gmail.com',
-						'role'     :  'User',
-						'rateplan' :  'MINI',
-						'authorize':  'deactive',
-						'billing'  :   40
-					},
-					{
-						'name'     :  'James wilson',
-						'userID'   :  'james.w@gmail.com',
-						'role'     :  'User',
-						'rateplan' :  'PLUS',
-						'authorize':  'active',
-						'billing'  :  45	
-					},
-					{
-						'name'	   :   'Barry Allen',
-						'userID'   :   'BarryAn',
-						'role'     :   'User',
-						'rateplan' :   'MINI',
-						'authorize':   'deactive',
-						'billing'  :   50
-					}
-				]
+	$scope.rights = '';
+
+	$scope.subscribers = subscribersData.subscribers;
+				
 	$scope.usertotal = $scope.subscribers.length;
 	$scope.usize = 4;
 		$scope.unumPages = $scope.usertotal / $scope.usize;
 		console.log($scope.unumPages);
+
+    $scope.callSearch = function() {
+            var landingURL = "http://localhost:8000/Search.html";
+            $window.open(landingURL,"_self");
+            }
 
 	$scope.upartial = function (number) {
 			var start = 0;
@@ -142,155 +69,12 @@ videoApp.controller('AdminDBController',
 	$scope.sortReverse = false;
     $scope.currentPage = 0;
 
-	$scope.movies = 
-			[
-				{
-					'name':'12 Years a Slave',
-					'language':'English',
-					'id':1,
-					'rights' : 'Free',
-					'rating' : 3
-				},
-				{
-					'name':'A Beautiful Mind',
-					'language':'English',
-					'id':2,
-					'rights' : 'Free',
-					'rating' : 4
-				},
-				{
-					'name':'Avengers2',
-					'language':'English',
-					'id':3,
-					'rights' : 'Member',
-					'rating' : 2
-				},
-				{
-					'name':'Cars2',
-					'language':'English',
-					'id':4,
-					'rights' : 'Member',
-					'rating' : 2
-				},
-				{
-					'name':'Deception',
-					'language':'English',
-					'id':5,
-					'rights' : 'Free',
-					'rating' : 3
-				},
-				{
-					'name':'2-States',
-					'language':'Hindi',
-					'id':6,
-					'rights' : 'Free',
-					'rating' : 4
-				},
-				{	
-					'name':'3-Idiots',
-					'language':'Hindi',
-					'id':7,
-					'rights' : 'Member',
-					'rating' : 4
-				},
-				{
-					'name':'Bhaag Milkha Bhaag',
-					'language':'Hindi',
-					'id':8,
-					'rights' : 'Member',
-					'rating' : 3
-				},
-				{
-					'name':'Chennai Express',
-					'language':'Hindi',
-					'id':9,
-					'rights' : 'Free',
-					'rating' : 3
-				},
-				{
-					'name':'Delhi 6',
-					'language':'Hindi',
-					'id':10,
-					'rights' : 'Free',
-					'rating' : 4
-				},
-				{
-					'name':'Googly',
-					'language':'Kannada',
-					'id':11,
-					'rights' : 'Member',
-					'rating' : 4
-				},
-				{
-					'name':'Maleyali Jotheyali',
-					'language':'Kannada',
-					'id':12,
-					'rights' : 'Free',
-					'rating' : 3
-				},
-				{	'name':'Mr 420',
-					'language':'Kannada',
-					'id':13,
-					'rights' : 'Member',
-					'rating' : 4
-				},
-				{	'name':'Topiwala',
-					'language':'Kannada',
-					'id':14,
-					'rights' : 'Free',
-					'rating' : 4
-				},
-				{
-					'name':'Victory',
-					'language':'Kannada',
-					'id':15,
-					'rights' : 'Free',
-					'rating' : 4
-				},
-				{
-					'name':'7am Arivu',
-					'language':'Tamil',
-					'id':16,
-					'rights' : 'Free',
-					'rating' : 4
-				},
-				{
-					'name':'I Tamil',
-					'language':'Tamil',
-					'id':17,
-					'rights' : 'Free',
-					'rating' : 4
-				},
-				{
-					'name':'Idhu Kathirvelan Kadhal',
-					'language':'Tamil',
-					'id':18,
-					'rights' : 'Member',
-					'rating' : 3
-				},
-				{
-					'name':'Thalaiva',
-					'language':'Tamil',
-					'id':19,
-					'rights' : 'Member',
-					'rating' : 3
-				},
-				{
-					'name':'Thillalangadi',
-					'language':'Tamil',
-					'id':20,
-					'rights' : 'Member',
-					'rating' : 4
-				}
-			]
-
-
-
-
-		$scope.total = $scope.movies.length;
-		$scope.size = 5;
-		$scope.numPages = $scope.total / $scope.size;
-		console.log($scope.numPages);
+	$scope.movies = moviesData.movies;
+			
+	$scope.total = $scope.movies.length;
+	$scope.size = 5;
+	$scope.numPages = $scope.total / $scope.size;
+	console.log($scope.numPages);
 
 		$scope.partial = function (number) {
 			var start = 0;
@@ -333,22 +117,161 @@ videoApp.controller('AdminDBController',
 		}
         $scope.pagenext();
 
+        $scope.billhistory = billingData.bills;
+        $scope.bills = [];
+        $scope.choosen = 1;
 
-        $scope.bills = [
+        $scope.months = daterangeData.daterange;
+
+        $scope.stateChanged = function(selected,count)
+        {
+        	console.log(selected);
+        	console.log(count);
+
+        	var allsubs = $scope.subscribers.length;
+
+        	$scope.choosen = count;
+        	if(selected == true)
+        	{
+        		for(var i = 0; i < allsubs; i++)
+        		{
+        			if( count != i) {
+        				$scope.show[i] = false;
+        			}
+        		}
+        	}
+        	alert('Choose Start Month & End Month');
+        }
+
+        $scope.viewBill = function()
+        {
+        	var billid = $scope.subscribers[$scope.choosen].billing;
+            var allbills = $scope.billhistory.length;
+            var contextbills = $scope.bills.length;
+
+            $scope.show[$scope.choosen] = true; 
+
+            console.log("billid"+billid);
+
+            if(contextbills > 0)
+            {
+            	$scope.bills.splice(0,$scope.bills.length);
+            }
+
+            if($scope.startmonth != null) 
+            {
+            	if($scope.endmonth != null)
+            	{
+            		for(var i = 0; i < allbills; i++)
+        			{
+        				if(billid == $scope.billhistory[i].billing)
         				{
-        					billing : 15,
-        					userID  : 'robinr.rao@gmail.com',
-        					month   : 1438367400000,
-        					payment : 'payment details',
-        					reminder: 'disable'
-        				},
-        				{
-        					billing : 15,
-        					userID  : 'robinr.rao@gmail.com',
-        					month   : 1440959400000,
-        					payment : 'payment details',
-        					reminder: 'disable' 
-        				}	
-        			]
+        					if($scope.billhistory[i].month >= $scope.startmonth.UTC)
+        					{ 
+        						if($scope.billhistory[i].month <= $scope.endmonth.UTC)
+        						{
+        							$scope.bills.push($scope.billhistory[i]);
+        						}
+        					}
+        				}
+        			} 
+            	}
+            	else
+            	{
+            		alert('Choose End Month');
+            	}
+            }
+            else
+            {
+            	alert('Choose Start Month & End Month');
+            }
+        	console.log(JSON.stringify($scope.bills));
+        }
+
+        $scope.Begin = function()
+        {
+        	console.log(JSON.stringify($scope.startmonth));
+        }
+
+        $scope.End = function()
+        {
+        	if($scope.startmonth.UTC == $scope.endmonth.UTC)
+        	{
+        		alert("Please select one month more the Start Month");
+        		$scope.endmonth === null;
+        	}
+        }
+
+        $scope.getstatus = function(value,index)
+        {
+        	console.log(value);
+        	console.log(index);
+        	$scope.subscribers[index].authorize = value;
+        }
+
+        $scope.authorize = function()
+        {
+        	var allactive = 0;
+        	var alldeactive = 0;
+        	for(var i = 0; i < $scope.subscribers.length; i++)
+        	{
+        		if($scope.subscribers[i].authorize == 'active')
+        		{
+        			allactive = allactive + 1;
+        		}
+        		if($scope.subscribers[i].authorize == 'deactive')
+        		{
+        			alldeactive = alldeactive + 1;
+        		}
+        	}
+        	alert("active"+allactive+"deactive"+alldeactive);   // POST Method to activate users
+        }
+
+        $scope.setrights = function(value)
+        {
+        	$scope.rights = value;
+        	console.log($scope.rights);
+        } 
+
+        $scope.upload = function(content, form)
+        {
+        	var empty = 'Missing';
+
+        	if(content.moviename == null)
+        	{
+        		empty = empty+" MovieName";
+        	} 
+        	if(content.language == null)
+        	{
+        		empty = empty+" Language";
+        	}
+        	if(content.poster == null)
+        	{
+        		empty = empty+" Poster";
+        	}
+        	if(content.actor == null)
+        	{
+        		empty = empty+" Actor";
+        	}
+        	if(content.director == null)
+        	{
+        		empty = empty+" Director";
+        	}
+        	if(content.synopsis == null)
+        	{
+        		empty = empty+" Synopsis";
+        	}
+        	if(content.media == null)
+        	{
+        		empty = empty+" Media";
+        	}
+        	if($scope.rights == null)
+        	{
+        		empty = empty+" Rights"
+        		content.right = $scope.rights;
+        	}
+        	alert(empty);
+        }
+       // $scope.viewBill();
 
 });

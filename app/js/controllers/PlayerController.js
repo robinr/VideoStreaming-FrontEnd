@@ -1,77 +1,31 @@
 'use strict';
 
-videoApp.controller('PlayerController', ['$scope', '$document', '$timeout', 
-	function PlayerController($scope, $document, $timeout) {
+videoApp.controller('PlayerController', ['$scope', '$document', '$timeout', '$window', 'playlistData', 'searchData', 'popularData',
+	function PlayerController($scope, $document, $timeout, $window, playlistData, searchData, popularData) {
 
 		$scope.presentPage = 0;
+		$scope.playlist = playlistData.playlist;
+		$scope.posters =  searchData.posters;
+		$scope.movieslist = popularData.popular.medias;
 
-		$scope.posters = 
-						[
-							{
-									movie : '/img/small/12-years-a-slave.jpg'
-							},
-							{
-									movie : '/img/small/A_Beautiful_Mind.jpg'
-							},
-							{
-									movie : '/img/small/avengers-2-age-of-ultron.jpg'
-							},
-							{
-									movie : '/img/small/Cars2.jpg'
-							},
-							{
-									movie : '/img/small/Deception.jpg'
-							},
-							{
-									movie : '/img/small/2-states.jpg'
-							},
-							{
-									movie : '/img/small/3-idiots.jpg'
-							},
-							{
-									movie : '/img/small/Bhaag-Milkha-Bhaag.jpg'
-							},
-							{
-									movie : '/img/small/Chennai-Express.jpg'
-							},
-							{
-									movie : '/img/small/Delhi-6.jpg'
-							},
-							{
-									movie : '/img/small/googly.jpg'
-							},
-							{
-									movie : '/img/small/Maleyali-Jotheyali.jpg'
-							},
-							{
-									movie : '/img/small/mr-420-Poster.jpg'
-							},
-							{
-									movie : '/img/small/Topiwala.jpg'
-							},
-							{
-									movie : '/img/small/victory.jpg'
-							},
-							{
-									movie : '/img/small/googly.jpg'
-							},
-							{
-									movie : '/img/small/Maleyali-Jotheyali.jpg'
-							},
-							{
-									movie : '/img/small/mr-420-Poster.jpg'
-							},
-							{
-									movie : '/img/small/Topiwala.jpg'
-							},
-							{
-									movie : '/img/small/victory.jpg'
-							}
-						]
-	$scope.usertotal = $scope.posters.length;
-	$scope.usize = 5;
+		$scope.picked = [];
+
+
+		$scope.usertotal = $scope.posters.length;
+		$scope.usize = 5;
 		$scope.unumPages = $scope.usertotal / $scope.usize;
+
+		$scope.currentplaylist = [];
+		$scope.currentplaylistidx;
+		$scope.currentname = '';
+		$scope.actors = '';
+		$scope.synopsis = '';
 		console.log($scope.unumPages);
+
+	$scope.callSearch = function() {
+            var landingURL = "http://localhost:8000/Search.html";
+            $window.open(landingURL,"_self");
+            }
 
 	$scope.partial = function (number) {
 			var start = 0;
@@ -112,10 +66,53 @@ videoApp.controller('PlayerController', ['$scope', '$document', '$timeout',
 			$scope.presentPage = $scope.presentPage - 1;
 			$scope.subset = $scope.partial($scope.presentPage);
 		}
+
+		$scope.changePlaylist = function(select,idx,listname)
+		{
+			console.log(select);
+			console.log(idx);
+			console.log(listname);
+			if(select == true)
+			{
+				var list = $scope.playlist.lists[idx];
+				console.log(list);
+				if($scope.currentplaylist != null)
+				{
+					$scope.currentplaylist.splice(0,$scope.currentplaylist.length);
+					for(var j = 0; j < $scope.picked.length; j++) $scope.picked[j] = false;
+					$scope.picked[idx] = true;
+				}
+				for(var i = 0; i < list.movielist.length; i++)
+				{
+					$scope.currentplaylist.push($scope.movieslist[list.movielist[i].mediaid]);
+					console.log($scope.currentplaylist[i]);
+				}
+				$scope.videoSource = $scope.currentplaylist[0].content;
+				console.log($scope.videoSource);
+				$scope.titleDisplay = $scope.currentplaylist[0].name;
+				$scope.currentname = $scope.currentplaylist[0].name;
+				$scope.actors = $scope.currentplaylist[0].actors;
+				$scope.synopsis = $scope.currentplaylist[0].synopsis;
+				$scope.currentplaylistidx = 1;
+				console.log($scope.titleDisplay);
+			}
+			else
+			{
+				if($scope.currentplaylist != null)
+				{
+					$scope.currentplaylist.splice(0,$scope.currentplaylist.length);
+					for(var j = 0; j < $scope.picked.length; j++) $scope.picked[j] = false;
+					$scope.videoSource = '/video/StarlightScamper.mp4'; 
+        			$scope.titleDisplay = 'StarlightScamper';
+        			$scope.videoDisplay = document.getElementById("VideoElement");
+        		}
+			}
+		}
+
         $scope.pagenext();
 
 
-        $scope.videoSource = 'video/ernesto.mp4';
+        $scope.videoSource = '/video/StarlightScamper.mp4'; 
         $scope.titleDisplay = 'StarlightScamper';
         $scope.videoDisplay = document.getElementById("VideoElement");
 
@@ -152,13 +149,6 @@ videoApp.controller('PlayerController', ['$scope', '$document', '$timeout',
         }
     }
 
-    $scope.initPlayer = function() {
-        $scope.currentTime = 0;
-        $scope.totalTime = 0;
-        $scope.videoDisplay.addEventListener("timeupdate", $scope.updateTime, true);
-        $scope.videoDisplay.addEventListener("loadedmetadata", $scope.updateData, true);
-    }
-    
     $scope.updateData = function(e) {
         $scope.totalTime = e.target.duration;
     }
@@ -174,9 +164,9 @@ videoApp.controller('PlayerController', ['$scope', '$document', '$timeout',
         }
     }
      
-    $timeout(function(){
-    $scope.updateLayout();
-	},100);
+    $timeout( function() {
+                $scope.updateLayout();
+	}, 1000);
     
 
 	$scope.updateTime = function(e) {
@@ -191,6 +181,35 @@ videoApp.controller('PlayerController', ['$scope', '$document', '$timeout',
 	    }
 
 	}
+
+	$scope.playnext = function() {
+		console.log("Entering Playnext");
+		if($scope.currentplaylistidx < $scope.currentplaylist.length)
+		{
+			$scope.videoSource = $scope.currentplaylist[$scope.currentplaylistidx].content;
+			console.log($scope.videoSource);
+			$scope.videoDisplay = $scope.currentplaylist[$scope.currentplaylistidx].name;
+			console.log($scope.videoDisplay);
+			$scope.currentname = $scope.currentplaylist[$scope.currentplaylistidx].name;
+			$scope.actors = $scope.currentplaylist[$scope.currentplaylistidx].actors;
+			$scope.synopsis = $scope.currentplaylist[$scope.currentplaylistidx].synopsis;
+			$scope.currentplaylistidx = $scope.currentplaylistidx + 1; 
+			$scope.videoDisplay = document.getElementById("VideoElement");
+			//$scope.ended = true;
+
+			$scope.togglePlay();
+		}
+	}
+
+    $scope.initPlayer = function() {
+        $scope.currentTime = 0;
+        $scope.totalTime = 0;
+        $scope.videoDisplay.addEventListener("timeupdate", $scope.updateTime, true);
+        $scope.videoDisplay.addEventListener("loadedmetadata", $scope.updateData, true);
+        $scope.videoDisplay.addEventListener("ended", $scope.playnext, true);
+    }
+    
+    
 
     $scope.initPlayer();
 

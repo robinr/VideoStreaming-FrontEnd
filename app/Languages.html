@@ -4,42 +4,10 @@
     <title>Language</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
-    <style>
-
-    .navbar-inner {
-    	width: 100%;
-    }
-
-    .footer {
-    	position: absolute;
-    	bottom: -1550;
-    	width: 100%;
-    	height: 40px;
-    	background-color: #000000;
-    	text-align: center;
-    }
-
-    .lang-readme-box {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 80%;
-        height: 55%;
-        text-align: left;
-    }
-
-    .lang-readme-box .lang-poster,
-    .lang-readme-box .lang-poster img {
-        bottom: 0.5em;
-        width: 240px;
-        height: 400px;
-    }
-
-    </style>
 </head>
      <body lang="en" ng-app="videoApp">
         <!-- Header section BEGIN---------- of the Landing Page -->
+        <div ng-controller="LanguageController">
         <div class="container">
     	<div class="navbar">
         <div class="navbar-inner">
@@ -53,14 +21,14 @@
 					</ul>
                 </li>
                 <li><a href="RatePlan.html">Rate&nbspPlan</a></li>
-                <li><a href="#">Devices</a></li>
+                <li><a href="Devices.html">Devices</a></li>
             </ul>
             	<ul class="nav pull-right">
-               		<li><button type="button" class="btn btn-default navbar-btn">Login</button></li>
+               		<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='http://localhost:8000/Login.html'">Login</button></li>
                 	<li><form class="navbar-form navbar-left" role="Search">
                 		<div class="form-group">
-                			<input type="text" class="form-control" placeholder="Movie Name">
-                			<button type="submit" class="btn btn-default">Search</button>
+                			<input type="text" ng-model="search" placeholder="Movie Name" ng-change="callSearch()">
+                			<button type="submit" class="btn btn-default"  onclick="location.href='http://localhost:8000/Search.html'">Search</button>
                 		</div>
                 		</form>                	
                  	</li>
@@ -71,7 +39,7 @@
         <!-- Header section END--------- of the Landing Page -->
 
     <div class="container-fluid">
-        <div ng-controller="LanguageController">
+        
         <div class="row">
             <div class="span4" ng-repeat="language in category.languages">
             <h1> {{language.name}}</h1>
@@ -87,18 +55,18 @@
             </div>
         </div>
     </div>
-    </div>
+    
 
         <!-- Footer section BEGIN -------- of the Landing Page --> 
             
 
-	<footer class="footer">
+	<footer class="lang-footer">
 		<div class="container">
-			<button type="button" class="btn btn-default pull-right">Contact</button>
+			<button type="button" class="btn btn-default pull-right" onclick="location.href='http://localhost:8000/Contact.html'">Contact</button>
 			<p class="text-muted">Copyright reserved to Movies Video Streaming 2015 </p>
 		</div>
 	</footer>
-
+    </div>
         <!-- Footer section END -------- of the Landing Page -->
 
      
@@ -113,6 +81,7 @@
 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 <script src="/lib/bootstrap.min.js"></script>
 <script src="/js/app.js"></script>
+<script type="text/javascript"  src="/js/services/LanguageData.js"></script>
 <script type="text/javascript"  src="/js/controllers/LanguageController.js"></script>
 </body>
 </html>

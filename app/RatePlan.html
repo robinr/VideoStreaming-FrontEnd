@@ -4,64 +4,10 @@
     <title>RATE PLAN</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
-    <style>
-
-    .navbar-inner {
-    	width: 100%;
-    }
-
-    .footer {
-    	position: absolute;
-    	bottom: -150;
-    	width: 100%;
-    	height: 40px;
-    	background-color: #000000;
-    	text-align: center;
-    }
-
-    .rateplan-readme-box {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 97%;
-        height: 50%;
-        text-align: left;
-    }
-
-    .rateplan-readme-box .rateplan-poster,
-    .rateplan-readme-box .rateplan-poster img {
-        width: 295px;
-        height: 144px;
-    }
-
-    .rateplan-readme-box .rateplan-metadata h4 {
-        font-style: medium;
-    }
-
-    textarea.terms {
-            left: 150px;
-            top: 50px;
-            position: relative;
-            width:1000px;
-            height:200px;
-            border:1px solid #ccc;
-            background:#f2f2f2;
-            font:normal 11px/15px arial;
-            padding:20px;
-            color:#333;
-    }
-
-    .signup {
-        top: 50px;
-        position: relative;
-        font-style: medium;
-        text-align: center;
-    }
-    </style>
 </head>
      <body lang="en" ng-app="videoApp">
         <!-- Header section BEGIN---------- of the Landing Page -->
+        <div ng-controller="RatePlanController">
         <div class="container">
     	<div class="navbar">
         <div class="navbar-inner">
@@ -78,11 +24,11 @@
                 <li><a href="Devices.html">Devices</a></li>
             </ul>
             	<ul class="nav pull-right">
-               		<li><button type="button" class="btn btn-default navbar-btn">Login</button></li>
+               		<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='http://localhost:8000/Login.html'">Login</button></li>
                 	<li><form class="navbar-form navbar-left" role="Search">
                 		<div class="form-group">
-                			<input type="text" class="form-control" placeholder="Movie Name">
-                			<button type="submit" class="btn btn-default">Search</button>
+                			<input type="text" ng-model="search" placeholder="Movie Name" ng-change="callSearch()">
+                			<button type="submit" class="btn btn-default" onclick="location.href='http://localhost:8000/Search.html'">Search</button>
                 		</div>
                 		</form>                	
                  	</li>
@@ -93,7 +39,7 @@
         <!-- Header section END--------- of the Landing Page -->
 
     <div class="container-fluid">
-        <div ng-controller="RatePlanController">
+        
         <h1> RATE&nbsp&nbspPLAN </h1>
         <div class="row">
             <div class="span4" ng-repeat="package in rateplan.packages">  
@@ -105,13 +51,16 @@
                             <h3>{{package.text}}</h3>
                             <p>{{package.info}}</p>
                             <div ng-repeat="language in package.languages">
-                                <label>&nbsp&nbsp<input type="checkbox">&nbsp&nbsp{{language.name}}</label>
+                                <label>&nbsp&nbsp
+                                <input type="checkbox" ng-model="show[[$parent.$index,$index]]" ng-change="stateChanged(show[[$parent.$index,$index]],'{{language.name}}','{{package.plan}}')">
+                                 &nbsp&nbsp{{language.name}}
+                                 </label>
                             </div>
                     </div>  
                 </div> 
             </div>
         </div>
-    </div>
+    
 
   </div>
     <textarea class="terms" readonly="readonly">
@@ -149,19 +98,19 @@ AGREEMENT
 
 <div class="signup">
 <input type="checkbox" name="checkbox" value="check" id="agree" /> I have read and agree to the Terms and Conditions.
-<button type="button" class="btn btn-default ">Signup</button>
+<button type="button" class="btn btn-default" onclick="location.href='http://localhost:8000/Registration.html'">Signup</button>
  </div>
 
         <!-- Footer section BEGIN -------- of the Landing Page --> 
             
 
-	<footer class="footer">
+	<footer class="rateplan-footer">
 		<div class="container">
-			<button type="button" class="btn btn-default pull-right">Contact</button>
+			<button type="button" class="btn btn-default pull-right" onclick="location.href='http://localhost:8000/Contact.html'">Contact</button>
 			<p class="text-muted">Copyright reserved to Movies Video Streaming 2015 </p>
 		</div>
 	</footer>
-
+</div>
         <!-- Footer section END -------- of the Landing Page -->
 
      
@@ -176,6 +125,7 @@ AGREEMENT
 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 <script src="/lib/bootstrap.min.js"></script>
 <script src="/js/app.js"></script>
+<script type="text/javascript"  src="/js/services/RatePlanData.js"></script>
 <script type="text/javascript"  src="/js/controllers/RatePlanController.js"></script>
 </body>
 </html>

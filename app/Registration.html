@@ -4,63 +4,10 @@
     <title>REGISTRATION</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
-    <style>
-
-    .navbar-inner {
-    	width: 100%;
-    }
-
-    .footer {
-    	position: absolute;
-    	bottom: -220;
-    	width: 100%;
-    	height: 40px;
-    	background-color: #000000;
-    	text-align: center;
-    }
-
-    .reg-readme-box {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 100%;
-        height: 75%;
-        text-align: left;
-    }
-
-    .reg-readme-box .reg-field-placer
-    {
-        padding-left: 20px;
-        padding-top:  50px;
-    }
-
-    .reg-readme-box .reg-field-placer img {
-        padding-left: 350px;
-        padding-top:  50px;
-    }
-
-    
-    .reg-login-box {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 100%;
-        height: 36%;
-        text-align: left;
-    }
-
-    .reg-login-box .reg-login-field-placer
-    {
-        padding-left: 20px;
-        padding-top:  50px;
-    }
-
-    </style>
 </head>
      <body lang="en" ng-app="videoApp">
         <!-- Header section BEGIN---------- of the Landing Page -->
+    <div ng-controller="RegistrationController">
         <div class="container">
     	<div class="navbar">
         <div class="navbar-inner">
@@ -77,11 +24,11 @@
                 <li><a href="Devices.html">Devices</a></li>
             </ul>
             	<ul class="nav pull-right">
-               		<li><button type="button" class="btn btn-default navbar-btn">Login</button></li>
+               		<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='http://localhost:8000/Login.html'">Login</button></li>
                 	<li><form class="navbar-form navbar-left" role="Search">
                 		<div class="form-group">
-                			<input type="text" class="form-control" placeholder="Movie Name">
-                			<button type="submit" class="btn btn-default">Search</button>
+                			<input type="text" ng-model="search" placeholder="Movie Name" ng-change="callSearch()">
+                			<button type="submit" class="btn btn-default" onclick="location.href='http://localhost:8000/Search.html'">Search</button>
                 		</div>
                 		</form>                	
                  	</li>
@@ -93,14 +40,16 @@
 
     <div class="container">
     <form name="profileForm">
-        <div ng-controller="RegistrationController">
+        
+        <form name="userDataForm">
         <div class="row">
             <div class="span12">  
                 <div class="reg-readme-box">
                 <h1> Subscriber Details </h1>
                 <fieldset class="reg-field-placer">
                     <label for="firstName">First Name:&nbsp&nbsp&nbsp&nbsp
-                    <input focus id="firstName" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Firstname" ng-model="user.firstName" /> <img src="/assets/img/photo.gif" alt="Profile Photo"></label>
+                    <input focus id="firstName" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Firstname" ng-model="user.firstName" /> <img src="/assets/img/photo.gif" alt="Profile Photo">
+                    <p><input type="file" data-file="user.file" ></p> </label>
                     <label for="lastName">Last Name:&nbsp&nbsp&nbsp&nbsp
                     <input focus id="lastName" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Lastname" ng-model="user.lastName" /></label>
                     <label for="address1">Address 1:&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -112,14 +61,14 @@
                     <label for="pin">pin :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     <input  focus id="pin"  required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="pin" ng-model="user.pin" /></label>
                     <label for="mobile">Mobile :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    <input id="mobile" type="number" placeholder="Number" ng-model="user.mobile" /></label>
-                    <label for="emailAddress">Email :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    <input id="emailAddress" type="email" placeholder="Email Address" ng-model="user.emailAddress" /></label>
+                    <input id="mobile" type="text" placeholder="Number" ng-model="user.mobile" /></label>
+                    <label for="email">Email :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <input id="email" type="email" placeholder="Email Address" ng-model="user.email" /></label>
                 </fieldset>
                 </div> 
             </div>
-            </div>
-            <div class="row">
+        </div>
+        <div class="row">
                 <div class="span6">
                     <div class="reg-login-box">
                         <h1> Login Details </h1>
@@ -129,7 +78,7 @@
                             <label for="password">Password:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                             <input id="password" required type="password" placeholder="Password" ng-model="user.password" /></label>
                             <label for="repassword">Re-Password:
-                            <input id="repassword" required type="password" placeholder="Repassword" ng-model="user.repassword" /></label>
+                            <input id="repassword" required type="password" placeholder="Re-password" ng-model="user.repassword" /></label>
                         </fieldset>
                     </div>    
                 </div>
@@ -137,36 +86,36 @@
                     <div class="reg-login-box">
                         <h1> Rate Plan </h1>
                         <div ng-repeat="package in rateplan.packages">
-                            <label>&nbsp&nbsp<input type="checkbox">&nbsp&nbsp{{package.plan}}</label>
+                            <label>&nbsp&nbsp<input type="checkbox" ng-model="show[$index]"  ng-change="stateChanged(show[$index], '{{package.plan}}')">&nbsp&nbsp{{package.plan}}</label>
                         </div>
                         
                         <h3> Languages </h3>
-                        <label>&nbsp&nbsp<input type="checkbox">&nbsp&nbsp{{rateplan.packages[0].languages[0].name}}
-                               &nbsp&nbsp<input type="checkbox">&nbsp&nbsp{{rateplan.packages[0].languages[1].name}}
-                               &nbsp&nbsp<input type="checkbox">&nbsp&nbsp{{rateplan.packages[0].languages[2].name}}
-                               &nbsp&nbsp<input type="checkbox">&nbsp&nbsp{{rateplan.packages[0].languages[3].name}}
-                               &nbsp&nbsp<input type="checkbox">&nbsp&nbsp{{rateplan.packages[3].languages[0].name}}
-                               </label>
-                        <button type="button" class="btn btn-default pull-right">Register</button>
+                        <label>&nbsp&nbsp<input type="checkbox" ng-model="show[4]" ng-change="stateChanged(show[4],'{{rateplan.packages[0].languages[0].name}}')">&nbsp&nbsp{{rateplan.packages[0].languages[0].name}}
+                               &nbsp&nbsp<input type="checkbox" ng-model="show[5]" ng-change="stateChanged(show[5], '{{rateplan.packages[0].languages[1].name}}')">&nbsp&nbsp{{rateplan.packages[0].languages[1].name}}
+                               &nbsp&nbsp<input type="checkbox" ng-model="show[6]" ng-change="stateChanged(show[6], '{{rateplan.packages[0].languages[2].name}}')">&nbsp&nbsp{{rateplan.packages[0].languages[2].name}}
+                               &nbsp&nbsp<input type="checkbox" ng-model="show[7]" ng-change="stateChanged(show[7], '{{rateplan.packages[0].languages[3].name}}')">&nbsp&nbsp{{rateplan.packages[0].languages[3].name}}
+                               &nbsp&nbsp<input type="checkbox" ng-model="show[8]" ng-change="stateChanged(show[8], '{{rateplan.packages[3].languages[0].name}}')">&nbsp&nbsp{{rateplan.packages[3].languages[0].name}}
+                               </label>{{languages}}
+                               {{choosen}}
+                        <button type="button" class="btn btn-default pull-right" ng-click="saveUser(user, userDataForm)">Register</button>
 
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </form>
     </form>
     </div>
 
         <!-- Footer section BEGIN -------- of the Landing Page --> 
             
 
-	<footer class="footer">
+	<footer class="reg-footer">
 		<div class="container">
-			<button type="button" class="btn btn-default pull-right">Contact</button>
+			<button type="button" class="btn btn-default pull-right" onclick="location.href='http://localhost:8000/Contact.html'">Contact</button>
 			<p class="text-muted">Copyright reserved to Movies Video Streaming 2015 </p>
 		</div>
 	</footer>
-
+    </div>
         <!-- Footer section END -------- of the Landing Page -->
 
      
@@ -181,6 +130,7 @@
 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 <script src="/lib/bootstrap.min.js"></script>
 <script src="/js/app.js"></script>
+<script type="text/javascript"  src="/js/services/RatePlanData.js"></script>
 <script type="text/javascript"  src="/js/controllers/RegistrationController.js"></script>
 </body>
 </html>

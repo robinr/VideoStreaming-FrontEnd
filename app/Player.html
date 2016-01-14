@@ -4,211 +4,10 @@
     <title>Video Player</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
-    
-    <style>
-
-    .navbar-inner {
-    	width: 100%;
-    }
-
-    .footer {
-    	position: absolute;
-    	bottom: -350;
-    	width: 100%;
-    	height: 40px;
-    	background-color: #000000;
-    	text-align: center;
-    }
-
-    .dvd-readme-box-one {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 84%;
-        height: 54%;
-        text-align: left;
-    }
-
-    .dvd-readme-box-one p,
-    .dvd-readme-box-one p .wrapper {
-        width: 11em; 
-        border: 1px solid #000000;
-        word-wrap: break-word;
-    }
-
-    .dvd-readme-box-bill {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 80%;
-        height: 22%;
-        text-align: left;
-    }
-
-    .dvd-readme-box-media {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 97%;
-        height: 38%;
-        text-align: left;
-    }
-
-    .media-field-placer {
-        padding-left: 20px;
-        padding-top:  20px;
-    }
-
-    .dvd-readme-box {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 90%;
-        height: 50%;
-        text-align: left;
-    }
-
-    .dvd-readme-box-synopsis {
-        position: relative;
-        
-        width: 80%;
-        height: 50%;
-        text-align: left;
-    } 
-
-    .dvd-readme-box-synopsis li {
-        text-align: left;
-    }
-
-    .dvd-readme-box .dvd-metadata h4 {
-        font-style: medium;
-    }
-
-    .dvd-readme-box .dvd-footer h5 {
-        font-style: small;
-    }
-
-    .paginator,
-    .paginator ul {
-        list-style-type: none;
-    }
-
-    /*.pdsa-submit-progress 
-       {
-           position: fixed;
-           top: 50%;
-           left: 50%;
-           z-index: 1;
-           height: 6em;
-           width: 20em;
-           margin-left: -10em;
-           padding-top: 2.5em;
-           padding-left: 2.1em;
-           background-color: Black;
-           color: White;
-           border-radius: 0.4em;
-           -moz-border-radius: 0.4em;
-           -webkit-border-radius: 0.4em;
-           box-shadow: 0.4em 0.4em rgba(0,0,0, 0.6);
-           -moz-box-shadow: 0.4em 0.4em rgba(0,0,0 0.6);
-           -webkit-box-shadow: 0.4em 0.4em rgba(0,0,0 0.6);
-       }  */
-
-    .pdsa-submit-progress-bg {
-            background-color: lightgray;
-            opacity: .5;
-        }
-
-    .pdsa-submit-progress {
-              padding-top: 2em;
-              width: 23em;
-              margin-left: -11.5em;
-    }
-        
-    .pdsa-submit-progress i {
-                margin-right: 0.5em;
-    }
-
-    .unselectable {
-                -moz-user-select: -moz-none;
-                -khtml-user-select: none;
-                -webkit-user-select: none;
-                -o-user-select: none;
-                user-select: none;
-    }
-
-
-/* VIDEODISPLAY */
-#videoDisplay {
-    background-color: black;
-}
-
-
-/* CONTROLBAR */
-#playerToolBar {
-    position: relative;
-    background-color: #464545;
-}
-#playerToolBar a {
-    font-size: 1.2em;
-    color: #b8b8bb;
-}
-#playerToolBar .btn {
-    border-radius:0px;
-    width: 20px;
-    height:20px;
-}
-#playerToolBar .icon-white {
-    top: -1px;
-    left:-5px;
-}
-#playerToolBar .btn:focus {
-    border: none;
-    box-shadow: 0;
-    outline: 0 none;
-}
-#videoTime {
-    position: relative;
-    top:3px;
-    left:12px;
-    font-size: 1.1em;
-    color: #c0c0c0;
-}
-
-
-/* OVERLAYS */
-#bigPlayButton {
-    background-color: rgba(0, 0, 0, 0.78);
-    width:100px;
-    height:100px;
-    position:absolute;
-    font-size: 3.2em;
-    cursor: pointer;
-    text-align: center;
-}
-#videoTitle {
-    position: absolute;
-    top:0px;
-    left:0px;
-    font-size: 1.3em;
-    color: whitesmoke;
-    width:100%;
-    margin:5px;
-    margin-left:10px;
-    text-shadow: 1px 1px #333333;
-}
-
-
-    
-
-    </style>
 </head>
      <body lang="en" ng-app="videoApp">
         <!-- Header section BEGIN---------- of the Landing Page -->
+    <div ng-controller="PlayerController">
         <div class="container">
     	<div class="navbar">
         <div class="navbar-inner">
@@ -218,11 +17,11 @@
                 <li><a href="Devices.html">Player</a></li>
             </ul>
             	<ul class="nav pull-right">
-               		<li><button type="button" class="btn btn-default navbar-btn">Login</button></li>
+               		<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='http://localhost:8000/Login.html'">Login</button></li>
                 	<li><form class="navbar-form navbar-left" role="Search">
                 		<div class="form-group">
-                			<input type="text" class="form-control" placeholder="Movie Name">
-                			<button type="submit" class="btn btn-default">Search</button>
+                			<input type="text" ng-model="search" placeholder="Movie Name" ng-change="callSearch()">
+                			<button type="submit" class="btn btn-default"  onclick="location.href='http://localhost:8000/Search.html'">Search</button>
                 		</div>
                 		</form>                	
                  	</li>
@@ -242,10 +41,10 @@
 
 
     <div class="container-fluid">
-        <div ng-controller="PlayerController">
+        
         <div class="row">
             <div class="span10">   
-                <div class="dvd-readme-box-one">
+                <div class="player-box-one">
 
 
                 <div id="fullPlayer" class="unselectable ng-cloak">
@@ -268,7 +67,7 @@
                 </div>
             </div>
             <div class="span5">
-              <div class="dvd-readme-box-bill">
+              <div class="player-box-bill">
                 <table class="table tablebordered table-striped table-hover">
                     <thead>
                         <tr>
@@ -278,28 +77,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td>Robin List</td>
-                        <td>180min</td>
-                        <td><label>&nbsp&nbsp<input type="checkbox" checked="checked">&nbsp&nbspChoose</label></td>
-                        </tr>
-                        <tr>
-                        <td>May List</td>
-                        <td>30min</td>
-                        <td><label>&nbsp&nbsp<input type="checkbox" >&nbsp&nbspChoose</label></td>
-                        </tr>
-                        <tr>
-                        <td>Ted List</td>
-                        <td>130min</td>
-                        <td><label>&nbsp&nbsp<input type="checkbox" >&nbsp&nbspChoose</label></td>
+                        <tr ng-repeat="item in playlist.lists">
+                        <td>{{item.name}}</td>
+                        <td>{{item.duration}}min</td>
+                        <td><label>&nbsp&nbsp<input type="checkbox" ng-model="picked[$index]" ng-change="changePlaylist(picked[$index],$index,'{{item.name}}')">&nbsp&nbspChoose</label></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="dvd-readme-box-synopsis">
+                <div class="player-box-synopsis">
                         <ul class="nav nav-list">
-                            <li ><i class="icon-film icon-white"></i>12 Years a Slave</li>
-                            <li ><i class="icon-star icon-white"></i> Stars: Chiwetel Ejiofor, Michael Kenneth Williams, Michael Fassbender</li>
-                            <li ><i class="icon-pencil icon-white"></i> In the antebellum United States, Solomon Northup, a free black man from upstate New York, is abducted and sold into slavery.</li>
+                            <li ><i class="icon-film icon-white"></i>{{currentname}}</li>
+                            <li ><i class="icon-star icon-white"></i>{{actors}}</li>
+                            <li ><i class="icon-pencil icon-white"></i>{{synopsis}}</li>
                         </ul>
                 </div>
                 </div>
@@ -307,7 +96,7 @@
         </div>
         <div class="row-fluid">
             <h1>&nbsp&nbsp</h1>
-                <div class="dvd-readme-box">
+                <div class="player-box">
                 <table class="table tablebordered table-striped table-hover">
                 <tr>
                 <td ng-repeat="poster in subset">
@@ -322,18 +111,18 @@
                                
         </div>
     </div>
-</div>
+
 
         <!-- Footer section BEGIN -------- of the Landing Page --> 
             
 
-	<footer class="footer">
+	<footer class="player-footer">
 		<div class="container">
-			<button type="button" class="btn btn-default pull-right">Contact</button>
+			<button type="button" class="btn btn-default pull-right" onclick="location.href='http://localhost:8000/Contact.html'">Contact</button>
 			<p class="text-muted">Copyright reserved to Movies Video Streaming 2015 </p>
 		</div>
 	</footer>
-
+</div>
         <!-- Footer section END -------- of the Landing Page -->
 
      
@@ -348,6 +137,9 @@
 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 <script src="/lib/bootstrap.min.js"></script>
 <script src="/js/app.js"></script>
+<script type="text/javascript"  src="/js/services/PlayListData.js"></script>
+<script type="text/javascript"  src="/js/services/SearchData.js"></script>
+<script type="text/javascript"  src="/js/services/PopularData.js"></script>
 <script type="text/javascript"  src="/js/controllers/PlayerController.js"></script>
 </body>
 </html>

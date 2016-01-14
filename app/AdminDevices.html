@@ -4,48 +4,10 @@
     <title>Admin Devices</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
-    <style>
-
-    .navbar-inner {
-    	width: 100%;
-    }
-
-    .footer {
-    	position: absolute;
-    	bottom: -60;
-    	width: 100%;
-    	height: 40px;
-    	background-color: #000000;
-    	text-align: center;
-    }
-
-    .device-readme-box {
-        position: relative;
-        border-style: solid;
-        border-width: 0.2em;
-        border-color: #428bca;
-        width: 100%;
-        height: 50%;
-        text-align: left;
-    }
-
-    .device-readme-box .device-poster,
-    .device-readme-box .device-poster img {
-        vertical-align: center
-        bottom: 0.5em;
-        padding-top: 50px;
-    }
-
-    .addplan-field-placer {
-        font-style: large;
-        padding-left: 20px;
-        padding-top:  20px;
-    }
-
-    </style>
 </head>
      <body lang="en" ng-app="videoApp">
         <!-- Header section BEGIN---------- of the Landing Page -->
+    <div ng-controller="AdminDevicesController">
         <div class="container">
     	<div class="navbar">
         <div class="navbar-inner">
@@ -58,15 +20,15 @@
                 		<li><a href="Languages.html">Language</a></li>
 					</ul>
                 </li>
-                <li><a href="RatePlan.html">Rate&nbspPlan</a></li>
-                <li><a href="#">Devices</a></li>
+                <li><a href="AdminRatePlan.html">Rate&nbspPlan</a></li>
+                <li><a href="AdminDevices.html">Devices</a></li>
             </ul>
             	<ul class="nav pull-right">
-               		<li><button type="button" class="btn btn-default navbar-btn">Login</button></li>
+               		<li><button type="button" class="btn btn-default navbar-btn" onclick="location.href='http://localhost:8000/Login.html'">Login</button></li>
                 	<li><form class="navbar-form navbar-left" role="Search">
                 		<div class="form-group">
-                			<input type="text" class="form-control" placeholder="Movie Name">
-                			<button type="submit" class="btn btn-default">Search</button>
+                			<input type="text" ng-model="search" placeholder="Movie Name" ng-change="callSearch()">
+                			<button type="submit" class="btn btn-default" onclick="location.href='http://localhost:8000/Search.html'">Search</button>
                 		</div>
                 		</form>                	
                  	</li>
@@ -77,41 +39,44 @@
         <!-- Header section END--------- of the Landing Page -->
 
     <div class="container-fluid">
-        <div ng-controller="AdminDevicesController">
+        
         <div class="row">
             <div class="span6">
                 <div ng-repeat="device in apps.devices">
-                    <h3> <input type="checkbox"> {{device.name}}</h3></br>  
+                    <h3><input type="checkbox" ng-model="choosen[$index]" ng-change="modifypkg(choosen[$index], $index)"> {{device.name}}</h3></br>  
                 </div>
+                    <h3> <input type="checkbox" ng-show="idx">{{content.deviceName}} </h3>
             </div>
             <div class="span8">
                 <div class="device-readme-box">
+                <form name="devicesDataForm">
                 <fieldset class="addplan-field-placer">
                         <h3>Add / Modify Device Name:&nbsp&nbsp&nbsp&nbsp
-                        <input focus id="deviceName" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Device name" ng-model="content.deviceName" /></h3>
-                        <h3>Picture of Device :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        <input focus id="picture" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="Picture" ng-model="content.picture" /></h3>
+                        <input focus id="deviceName" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" placeholder="" ng-model="content.deviceName" /></h3>
+                        <h3>Picture of Device :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input type="file"  data-file="content.picture" /></h3>
                         <h3>App Store URL:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        <textarea focus id="url" required ng-pattern="/^[-A-Za-z0-9]{2,20}$/" type="text" cols="40" rows="5"placeholder="URL" ng-model="content.url" /></textarea></h3>
-                        <button type="submit" class="btn btn-default">ADD DEVICE</button>
-                        <button type="submit" class="btn btn-default pull-right">UPDATE</button>
+                        <textarea focus id="url"  type="text" cols="40" rows="5"placeholder="" ng-model="content.url" /></textarea></h3>
+                        <button type="submit" class="btn btn-default" ng-click="addDevice(content,devicesDataForm)">ADD DEVICE</button>
+                        <button type="submit" class="btn btn-default pull-right"  ng-click="updateDevice(content,devicesDataForm)">UPDATE</button>
                 </fieldset>
+                </form>
                 </div>
             </div>
         </div>    
-        </div>
+        
     </div>
 
         <!-- Footer section BEGIN -------- of the Landing Page --> 
             
 
-	<footer class="footer">
+	<footer class="admin-dev-footer">
 		<div class="container">
-			<button type="button" class="btn btn-default pull-right">Contact</button>
+			<button type="button" class="btn btn-default pull-right" onclick="location.href='http://localhost:8000/Contact.html'">Contact</button>
 			<p class="text-muted">Copyright reserved to Movies Video Streaming 2015 </p>
 		</div>
 	</footer>
-
+    </div>
         <!-- Footer section END -------- of the Landing Page -->
 
      
@@ -126,6 +91,7 @@
 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
 <script src="/lib/bootstrap.min.js"></script>
 <script src="/js/app.js"></script>
+<script type="text/javascript"  src="/js/services/DevicesData.js"></script>
 <script type="text/javascript"  src="/js/controllers/AdminDevicesController.js"></script>
 </body>
 </html>

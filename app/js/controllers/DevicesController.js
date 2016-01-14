@@ -1,36 +1,13 @@
 'use strict';
 
 videoApp.controller('DevicesController', 
-	function DevicesController($scope) {
+	function DevicesController($scope, $window, devicesData) {
 
-		$scope.apps = 
-			{
-				devices:
-					[
-						{
-							name  : 'ALL BROWSERS',
-							image : '/assets/img/All-Browsers.jpg'
-						},
-						{
-							name  : 'ANDROID HDMI', 
-							image : '/assets/img/Android-app-on-google-play.svg'
-						},
-						{
-							name  : 'APPLE TV',
-							image : '/assets/img/App_Store_Badge_EN.png'
-						},
-						{
-							name  : 'SAMSUNG SMART TV',
-							image : '/assets/img/samsung-smart-tv-2.jpg'
-						},
-						{
-							name  : 'SONY BRAVIA TV',
-							image : '/assets/img/Sony-Bravia.jpg'
-						},
-						{
-							name  : 'PANASONIC VIERA TV',
-							image : '/assets/img/Panasonic-Viera.jpg'
-						}
-					]
-			};
+		$scope.apps = devicesData.apps;
+
+		$scope.callSearch = function() {
+        	var landingURL = "http://localhost:8000/Search.html";
+        	$window.open(landingURL,"_self");
+			}
+			
 	});
